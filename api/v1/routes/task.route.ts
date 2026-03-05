@@ -1,7 +1,7 @@
 import express, { Router } from "express";
 const router: Router = Router();
 
-import * as controller from "../../../controller/task.controller";
+import * as controller from "../controller/task.controller";
 
 router.get("/", controller.index);
 
