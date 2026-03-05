@@ -100,7 +100,7 @@ export const changeMulti = async (req: Request, res: Response) => {
                 const tasks = await Task.updateMany(
                     {
                         _id: {
-                            $in: ids,
+                            $in: { $in: ids },
                         },
                     },
                     {
@@ -111,6 +111,25 @@ export const changeMulti = async (req: Request, res: Response) => {
                     {
                         code: 200,
                         message: "Change status success",
+                    }
+                );
+                break;
+            case "deleted":
+                await Task.updateMany(
+                    {
+                        _id: {
+                            $in: { $in: ids },
+                        },
+                    },
+                    {
+                        deleted: true,
+                        deletedAt: new Date(),
+                    }
+                );
+                res.json(
+                    {
+                        code: 200,
+                        message: "Change deleted success",
                     }
                 );
                 break;
@@ -176,6 +195,35 @@ export const edit = async (req: Request, res: Response) => {
             {
                 code: 400,
                 message: "Edit task failed",
+            }
+        );
+    }
+}
+
+// [DELETE] /tasks/delete/:id
+export const deleteTask = async (req: Request, res: Response) => {
+    try {
+        const id: string = req.params.id.toString();
+        await Task.updateOne(
+            {
+                _id: id,
+            },
+            {
+                deleted: true,
+                deletedAt: new Date(),
+            }
+        );
+        res.json(
+            {
+                code: 200,
+                message: "Delete task success",
+            }
+        );
+    }catch(error){
+        res.json(
+            {
+                code: 400,
+                message: "Delete task failed",
             }
         );
     }
