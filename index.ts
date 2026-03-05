@@ -8,6 +8,11 @@ import mainV1Routes from "./api/v1/routes/index.route";
 const app: Express = express();
 const port: number | string = process.env.PORT || 3000;
 
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+
 database.connect();
 
 app.use(express.json());

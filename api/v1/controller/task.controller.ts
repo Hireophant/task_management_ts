@@ -3,6 +3,8 @@ import { Request, Response } from "express";
 import paginationHelper from "../helpers/pagination";
 import searchHelper from "../helpers/search";
 
+
+// [GET] /tasks
 export const index = async (req: Request, res: Response) => {
     //Find
     const find = {
@@ -46,6 +48,7 @@ export const index = async (req: Request, res: Response) => {
     res.json(tasks);
 };
 
+// [GET] /tasks/:id
 export const detail = async (req: Request, res: Response) => {
     const id = req.params.id;
     const task = await Task.findOne(
@@ -55,4 +58,32 @@ export const detail = async (req: Request, res: Response) => {
         }
     );
     res.json(task);
+}
+
+// [PATCH] /tasks/change-status/:id
+export const changeStatus = async (req: Request, res: Response) => {
+    try{
+        const id: string = req.params.id.toString();
+        const task = await Task.updateOne(
+            {
+                _id: id,
+            },
+            {
+                status: req.body.status,
+            }
+        );
+        res.json(
+            {
+                code: 200,
+                message: "Change status success",
+            }
+        );
+    }catch(error){
+        res.json(
+            {
+                code: 400,
+                message: "Change status failed",
+            }
+        );
+    }
 }
