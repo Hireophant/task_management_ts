@@ -1,6 +1,7 @@
 import Task from "../models/task.model";
 import { Request, Response } from "express";
 import paginationHelper from "../helpers/pagination";
+import searchHelper from "../helpers/search";
 
 export const index = async (req: Request, res: Response) => {
     //Find
@@ -11,6 +12,13 @@ export const index = async (req: Request, res: Response) => {
         find["status"] = req.query.status;
     }
     //End find
+
+    //search
+      const objectSearch = searchHelper(req.query);
+      if (objectSearch.regex) {
+        find["title"] = objectSearch.regex;
+      }
+      //End search
 
     //pagination
   const countTask = await Task.countDocuments(find);
