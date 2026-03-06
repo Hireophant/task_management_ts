@@ -71,3 +71,15 @@ export const login = async (req: Request, res: Response) => {
         }
     );
 }
+
+// [GET] /users/detail/:id
+export const detail = async (req: Request, res: Response) => {
+    res.json(
+        {
+            code: 200,
+            message: "Detail user success",
+            info: req["user"],
+        }
+    );
+}
+    
