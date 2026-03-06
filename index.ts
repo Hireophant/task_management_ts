@@ -1,5 +1,6 @@
 import express, { Express } from "express";
 import dotenv from "dotenv";
+import cors from "cors";
 dotenv.config();
 
 import * as database from "./config/database";
@@ -11,11 +12,10 @@ const port: number | string = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 
 database.connect();
-
-app.use(express.json());
 
 mainV1Routes(app);
 
